@@ -2,8 +2,8 @@ name: Preise aktualisieren & Pages deployen
 
 on:
   schedule:
-    # alle 15 min (GitHub kann Cron-Läufe um einige Minuten verzögern)
-    - cron: "7,22,37,52 * * * *"
+    # alle 5 min, Rund um die volle Stunde (:57-:02) ausgespart, da GitHub dort überlastet ist
+    - cron: "7-52/5 * * * *"
   push:
     branches: [main]
   workflow_dispatch:
