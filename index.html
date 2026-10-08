@@ -135,10 +135,14 @@ const S = JSON.parse(localStorage.getItem("spot-at") || "{}");
 const state = { res: S.res || 15, vat: S.vat ?? 1, fee: S.fee || 0, win: S.win || 2, day: null, byDay: {}, raw: [] };
 const save = () => localStorage.setItem("spot-at", JSON.stringify({ res: state.res, vat: state.vat, fee: state.fee, win: state.win }));
 
-const fmtDate = new Intl.DateTimeFormat("sv-SE", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" });
-const fmtTime = new Intl.DateTimeFormat("de-AT", { timeZone: TZ, hour: "2-digit", minute: "2-digit" });
+// Locale-independent formatting: browsers (esp. iOS Safari) differ in Intl output strings, so build keys from parts
+const fmtDate = new Intl.DateTimeFormat("en-US", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" });
+const fmtTime = new Intl.DateTimeFormat("de-AT", { timeZone: TZ, hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
 const fmtDay = new Intl.DateTimeFormat("de-AT", { timeZone: TZ, weekday: "short", day: "numeric", month: "short" });
-const dayKey = t => fmtDate.format(new Date(t * 1000));
+const fmtWd = new Intl.DateTimeFormat("de-AT", { timeZone: "UTC", weekday: "short" });
+const MONTHS = ["Jän.", "Feb.", "März", "Apr.", "Mai", "Juni", "Juli", "Aug.", "Sep.", "Okt.", "Nov.", "Dez."];
+const parts = (f, d) => Object.fromEntries(f.formatToParts(d).map(p => [p.type, p.value]));
+const dayKey = t => { const p = parts(fmtDate, new Date(t * 1000)); return `${p.year}-${p.month}-${p.day}`; };
 const hm = t => fmtTime.format(new Date(t * 1000));
 const addDays = (key, n) => { const d = new Date(key + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
 
@@ -173,8 +177,16 @@ async function load() {
     $("upd").textContent = `Daten vom ${fmtDay.format(u)} ${fmtTime.format(u)} · ⟳ tippen zum Aktualisieren`;
   } catch (e) { $("upd").textContent = "Fehler beim Laden: " + e.message; }
   if (!state.day || !state.byDay[state.day]) state.day = today;
-  render();
+  try { render(); } catch (e) { showErr(e); }
 }
+
+// Surface errors on the page itself – there is no dev console on the phone
+function showErr(e) {
+  const m = (e && (e.message || e.reason && e.reason.message)) || String(e);
+  $("upd").textContent = "Fehler: " + m;
+}
+window.addEventListener("error", showErr);
+window.addEventListener("unhandledrejection", showErr);
 
 function renderDays() {
   const today = dayKey(Date.now() / 1000);
@@ -183,8 +195,9 @@ function renderDays() {
     const k = addDays(today, i), has = !!state.byDay[k];
     const el = document.createElement("div");
     el.className = "day" + (k === state.day ? " on" : "") + (has ? "" : " na");
-    const [wd, rest] = fmtDay.format(new Date(k + "T12:00:00Z")).split(", ");
-    el.innerHTML = `${i === 0 ? "Heute" : i === 1 ? "Morgen" : wd}<b>${rest.split(".")[0]}</b>${rest.split(". ")[1] || ""}`;
+    const kd = new Date(k + "T12:00:00Z");
+    const wd = fmtWd.format(kd).replace(/\.?$/, ".");
+    el.innerHTML = `${i === 0 ? "Heute" : i === 1 ? "Morgen" : wd}<b>${kd.getUTCDate()}</b>${MONTHS[kd.getUTCMonth()]}`;
     if (i === 1 && !has) el.title = "Day‑Ahead Preise werden ca. 13:00 veröffentlicht";
     if (has) el.onclick = () => { state.day = k; render(); };
     $("days").appendChild(el);
