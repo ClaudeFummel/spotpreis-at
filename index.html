@@ -19,68 +19,71 @@
   }
   *{box-sizing:border-box}
   body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#132235 0,var(--bg) 60%);color:var(--txt);
-       font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+       font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
   .wrap{max-width:1100px;margin:0 auto;
-        padding:calc(14px + env(safe-area-inset-top)) calc(14px + env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) calc(14px + env(safe-area-inset-left))}
+        padding:calc(10px + env(safe-area-inset-top)) calc(10px + env(safe-area-inset-right)) calc(30px + env(safe-area-inset-bottom)) calc(10px + env(safe-area-inset-left))}
   html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
   .days::-webkit-scrollbar{display:none} .days{scrollbar-width:none}
-  .grid,.stats,.list{min-width:0} .grid>*,.stats>*{min-width:0}
+  .stats,.list{min-width:0} .stats>*{min-width:0}
   #bestTxt{white-space:nowrap}
   #upd{cursor:pointer}
-  header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
-  h1{font-size:20px;margin:0;font-weight:650;letter-spacing:.2px}
-  h1 span{color:var(--mute);font-weight:400;font-size:14px;margin-left:6px}
-  .ctrls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-  .seg{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px}
-  .seg button{background:none;border:0;color:var(--mute);padding:6px 12px;border-radius:7px;cursor:pointer;font:inherit}
+  header{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
+  h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.2px}
+  h1 span{color:var(--mute);font-weight:400;font-size:11px;margin-left:5px}
+  .ctrls{display:flex;flex-wrap:nowrap;gap:5px;align-items:center;min-width:0}
+  .seg{display:inline-flex;flex:0 0 auto;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:2px}
+  .seg button{background:none;border:0;color:var(--mute);padding:4px 8px;border-radius:6px;cursor:pointer;font:inherit;white-space:nowrap}
   .seg button.on{background:var(--card2);color:var(--txt);box-shadow:inset 0 0 0 1px var(--line)}
-  label.in{display:inline-flex;gap:6px;align-items:center;background:var(--card);border:1px solid var(--line);
-           border-radius:10px;padding:6px 10px;color:var(--mute)}
-  label.in input{width:58px;background:transparent;border:0;color:var(--txt);font:inherit;font-size:16px;text-align:right;outline:none}
+  label.in{display:inline-flex;flex:0 1 auto;min-width:0;gap:3px;align-items:center;background:var(--card);border:1px solid var(--line);
+           border-radius:8px;padding:2px 7px;color:var(--mute);white-space:nowrap}
+  /* 16px verhindert das automatische Hineinzoomen von iOS beim Antippen */
+  label.in input{width:40px;min-width:0;background:transparent;border:0;color:var(--txt);font:inherit;font-size:16px;text-align:right;outline:none;padding:0}
+  .sm{display:none}
   @media(max-width:600px){
-    header{gap:10px} h1 span{display:block;margin:2px 0 0}
-    .ctrls{width:100%} .seg button{padding:6px 10px}
-    .now .big{font-size:48px} svg{height:200px}
-    .stat .v{font-size:18px} .stat{padding:8px} .stat .s{font-size:11px}
-    .card{padding:12px}
-    .list{grid-template-columns:1fr}
+    h1 span{display:block;margin:1px 0 0}
+    .ctrls{width:100%;justify-content:space-between} .seg button{padding:4px 7px}
+    .lg{display:none} .sm{display:inline}
+    .now .big{font-size:32px} svg{height:150px}
+    .card{padding:9px}
   }
-  .days{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px}
-  .day{flex:0 0 auto;min-width:64px;text-align:center;background:var(--card);border:1px solid var(--line);
-       border-radius:12px;padding:8px 6px;cursor:pointer;color:var(--mute);user-select:none}
-  .day b{display:block;font-size:20px;color:var(--txt);font-weight:600}
+  .days{display:flex;gap:5px;overflow-x:auto;padding-bottom:3px;margin-bottom:10px}
+  .day{flex:0 0 auto;min-width:50px;text-align:center;background:var(--card);border:1px solid var(--line);line-height:1.2;
+       border-radius:9px;padding:4px 4px;cursor:pointer;color:var(--mute);user-select:none;font-size:11px}
+  .day b{display:block;font-size:15px;color:var(--txt);font-weight:600}
   .day.on{border-color:var(--acc);background:#0f2533}
   .day.na{opacity:.35;cursor:default}
-  .grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px;margin-bottom:14px}
-  @media(max-width:760px){.grid{grid-template-columns:minmax(0,1fr)}}
-  .card{background:linear-gradient(180deg,var(--card),#0f141b);border:1px solid var(--line);border-radius:16px;padding:16px}
-  .now .lbl{color:var(--mute);font-size:13px}
-  .now .big{font-size:56px;font-weight:700;line-height:1.05;margin:6px 0 2px;font-variant-numeric:tabular-nums}
-  .now .unit{color:var(--mute)}
-  .now .split{margin-top:10px;color:var(--mute);font-size:13px;font-variant-numeric:tabular-nums}
-  .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-  .stat{background:var(--card2);border-radius:12px;padding:10px;border:1px solid var(--line)}
-  .stat .k{color:var(--mute);font-size:12px}
-  .stat .v{font-size:20px;font-weight:650;font-variant-numeric:tabular-nums}
-  .stat .s{color:var(--mute);font-size:12px}
-  .best{margin-top:10px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;
-        justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-  .best select{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:4px 6px;font:inherit}
+  .card{background:linear-gradient(180deg,var(--card),#0f141b);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .now{margin-bottom:10px;display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:8px 14px;align-items:center}
+  @media(max-width:760px){.now{grid-template-columns:minmax(0,1fr)}}
+  .now .lbl{color:var(--mute);font-size:11px}
+  .now .big{font-size:40px;font-weight:700;line-height:1;margin:3px 0 0;font-variant-numeric:tabular-nums}
+  .now .unit{color:var(--mute);font-size:12px;font-weight:400;margin-left:4px}
+  .now .split{margin-top:4px;color:var(--mute);font-size:10.5px;font-variant-numeric:tabular-nums}
+  .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  .stat{background:var(--card2);border-radius:8px;padding:4px 7px;border:1px solid var(--line)}
+  .stat .k{color:var(--mute);font-size:10px}
+  .stat .v{font-size:15px;font-weight:650;font-variant-numeric:tabular-nums;line-height:1.2}
+  .stat .s{color:var(--mute);font-size:10px}
+  .best{grid-column:1/-1;background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:5px 8px;display:flex;
+        justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
+  .best select{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:6px;padding:1px 18px 1px 6px;font:inherit;font-size:16px;
+               -webkit-appearance:none;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--mute) 50%),linear-gradient(135deg,var(--mute) 50%,transparent 50%);
+               background-position:calc(100% - 10px) 55%,calc(100% - 6px) 55%;background-size:4px 4px;background-repeat:no-repeat}
   .chart{position:relative}
-  svg{display:block;width:100%;height:260px}
-  .tip{position:absolute;pointer-events:none;background:#0b1118ee;border:1px solid var(--line);border-radius:8px;
-       padding:6px 8px;font-size:12px;transform:translate(-50%,-110%);white-space:nowrap;display:none}
-  .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr));gap:6px;margin-top:14px}
-  .row{display:grid;grid-template-columns:96px minmax(0,1fr) 64px;gap:8px;align-items:center;background:var(--card);
-       border:1px solid var(--line);border-radius:10px;padding:7px 10px;font-variant-numeric:tabular-nums}
+  svg{display:block;width:100%;height:208px}
+  .tip{position:absolute;pointer-events:none;background:#0b1118ee;border:1px solid var(--line);border-radius:6px;
+       padding:4px 6px;font-size:10px;transform:translate(-50%,-110%);white-space:nowrap;display:none}
+  .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:3px;margin-top:10px}
+  .row{display:grid;grid-template-columns:82px minmax(0,1fr) 46px;gap:6px;align-items:center;background:var(--card);line-height:1.2;
+       border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-variant-numeric:tabular-nums}
   .row.cur{outline:2px solid var(--acc)}
   .row.past{opacity:.45}
-  .row .t{color:var(--mute);font-size:13px}
-  .row .bar{height:8px;background:#1f2a38;border-radius:6px;overflow:hidden}
-  .row .bar i{display:block;height:100%;border-radius:6px}
+  .row .t{color:var(--mute);font-size:11px}
+  .row .bar{height:6px;background:#1f2a38;border-radius:4px;overflow:hidden}
+  .row .bar i{display:block;height:100%;border-radius:4px}
   .row .p{text-align:right;font-weight:600}
-  .msg{color:var(--mute);padding:30px;text-align:center}
-  footer{margin-top:18px;color:var(--mute);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .msg{color:var(--mute);padding:24px;text-align:center}
+  footer{margin-top:14px;color:var(--mute);font-size:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
   footer a{color:var(--mute)}
 </style>
 </head>
@@ -90,32 +93,29 @@
     <h1>⚡ Spotpreis Österreich<span>EPEX Day‑Ahead · 15‑Minuten</span></h1>
     <div class="ctrls">
       <div class="seg" id="res"><button data-v="15" class="on">15 min</button><button data-v="60">1 h</button></div>
-      <div class="seg" id="vat"><button data-v="1" class="on">inkl. 20% MwSt</button><button data-v="0">netto</button></div>
-      <label class="in" title="Aufschlag deines Anbieters (netto)">Aufschlag <input id="fee" type="number" inputmode="decimal" step="0.01" value="0"> ct</label>
+      <div class="seg" id="vat"><button data-v="1" class="on"><span class="lg">inkl. 20% MwSt</span><span class="sm">brutto</span></button><button data-v="0">netto</button></div>
+      <label class="in" title="Aufschlag deines Anbieters (netto)"><span class="lg">Aufschlag</span><span class="sm">+</span> <input id="fee" type="number" inputmode="decimal" step="0.01" value="0"> ct</label>
     </div>
   </header>
 
   <div class="days" id="days"></div>
 
-  <div class="grid">
-    <div class="card now">
+  <div class="card now">
+    <div>
       <div class="lbl" id="nowLbl">Aktueller Preis</div>
-      <div class="big" id="nowPrice">–</div>
-      <div class="unit">ct/kWh</div>
+      <div class="big"><span id="nowPrice">–</span><span class="unit">ct/kWh</span></div>
       <div class="split" id="nowSplit"></div>
     </div>
-    <div class="card">
-      <div class="stats">
-        <div class="stat"><div class="k">↓ Minimum</div><div class="v" id="sMin">–</div><div class="s" id="sMinT"></div></div>
-        <div class="stat"><div class="k">Ø Mittel</div><div class="v" id="sAvg">–</div><div class="s">ganzer Tag</div></div>
-        <div class="stat"><div class="k">↑ Maximum</div><div class="v" id="sMax">–</div><div class="s" id="sMaxT"></div></div>
-      </div>
-      <div class="best">
-        <span>Günstigstes Fenster
-          <select id="win"><option value="1">1 h</option><option value="2" selected>2 h</option><option value="3">3 h</option><option value="4">4 h</option></select>
-        </span>
-        <b id="bestTxt">–</b>
-      </div>
+    <div class="stats">
+      <div class="stat"><div class="k">↓ Min</div><div class="v" id="sMin">–</div><div class="s" id="sMinT"></div></div>
+      <div class="stat"><div class="k">Ø Mittel</div><div class="v" id="sAvg">–</div><div class="s">ganzer Tag</div></div>
+      <div class="stat"><div class="k">↑ Max</div><div class="v" id="sMax">–</div><div class="s" id="sMaxT"></div></div>
+    </div>
+    <div class="best">
+      <span>Günstigstes Fenster
+        <select id="win"><option value="1">1 h</option><option value="2" selected>2 h</option><option value="3">3 h</option><option value="4">4 h</option></select>
+      </span>
+      <b id="bestTxt">–</b>
     </div>
   </div>
 
@@ -254,7 +254,7 @@ function render() {
 }
 
 function drawChart(s, min, max, avg, cur, now) {
-  const svg = $("svg"), W = svg.clientWidth || 1000, H = 260, P = { l: 40, r: 8, t: 10, b: 24 };
+  const svg = $("svg"), W = svg.clientWidth || 1000, H = svg.clientHeight || 208, P = { l: 30, r: 6, t: 8, b: 18 };
   const lo = Math.min(0, min), hi = max <= lo ? lo + 1 : max * 1.05;
   const y = v => P.t + (H - P.t - P.b) * (1 - (v - lo) / (hi - lo));
   const bw = (W - P.l - P.r) / s.length;
@@ -262,7 +262,7 @@ function drawChart(s, min, max, avg, cur, now) {
   const step = Math.max(1, Math.round((hi - lo) / 5 / 5) * 5) || 1;
   for (let v = Math.ceil(lo / step) * step; v <= hi; v += step)
     g += `<line x1="${P.l}" x2="${W - P.r}" y1="${y(v)}" y2="${y(v)}" stroke="#243041" stroke-width="1"/>
-          <text x="${P.l - 6}" y="${y(v) + 4}" fill="#8b98a9" font-size="11" text-anchor="end">${v}</text>`;
+          <text x="${P.l - 4}" y="${y(v) + 4}" fill="#8b98a9" font-size="9" text-anchor="end">${v}</text>`;
   s.forEach((x, i) => {
     const X = P.l + i * bw, y0 = y(0), yv = y(x.v);
     const past = x.t + x.d <= now;
@@ -270,7 +270,7 @@ function drawChart(s, min, max, avg, cur, now) {
            rx="${Math.min(3, bw / 4)}" fill="${color(x.v, min, max)}" opacity="${past ? 0.4 : 1}" ${x === cur ? 'stroke="#fff" stroke-width="1.5"' : ""}/>`;
     const lt = hm(x.t);
     if (lt.endsWith(":00") && Number(lt.slice(0, 2)) % 3 === 0)
-      g += `<text x="${X}" y="${H - 6}" fill="#8b98a9" font-size="11">${lt.slice(0, 2)}</text>`;
+      g += `<text x="${X}" y="${H - 5}" fill="#8b98a9" font-size="9">${lt.slice(0, 2)}</text>`;
   });
   g += `<line x1="${P.l}" x2="${W - P.r}" y1="${y(avg)}" y2="${y(avg)}" stroke="#4cc9f0" stroke-dasharray="4 4" opacity=".7"/>`;
   if (cur) { const X = P.l + (s.indexOf(cur) + (now - cur.t) / cur.d) * bw; g += `<line x1="${X}" x2="${X}" y1="${P.t}" y2="${H - P.b}" stroke="#fff" opacity=".6"/>`; }
@@ -289,8 +289,8 @@ function drawChart(s, min, max, avg, cur, now) {
 function seg(id, key, cast = Number) {
   const el = $(id);
   el.querySelectorAll("button").forEach(b => b.classList.toggle("on", cast(b.dataset.v) === state[key]));
-  el.onclick = e => { if (!e.target.dataset.v) return; state[key] = cast(e.target.dataset.v);
-    el.querySelectorAll("button").forEach(b => b.classList.toggle("on", b === e.target)); save(); render(); };
+  el.onclick = e => { const t = e.target.closest("button"); if (!t || !t.dataset.v) return; state[key] = cast(t.dataset.v);
+    el.querySelectorAll("button").forEach(b => b.classList.toggle("on", b === t)); save(); render(); };
 }
 seg("res", "res"); seg("vat", "vat");
 $("fee").value = state.fee; $("fee").oninput = e => { state.fee = Number(e.target.value) || 0; save(); render(); };
