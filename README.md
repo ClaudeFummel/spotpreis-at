@@ -10,7 +10,7 @@ EPEX Day‑Ahead Strompreise für Österreich im **15‑Minuten‑Raster** – a
 
 ## Wie es funktioniert
 
-Eine GitHub Action (`.github/workflows/pages.yml`) läuft alle 5 Minuten (außer rund um die volle Stunde), holt die Preise von
+Eine GitHub Action (`.github/workflows/pages.yml`) läuft stündlich um :20, holt die Preise von
 [energy-charts.info](https://energy-charts.info) (Fraunhofer ISE, CC BY 4.0, Bundesnetzagentur | SMARD.de)
 und veröffentlicht sie zusammen mit der App als statische Seite auf GitHub Pages. Kein eigener Server nötig.
 
